@@ -1,57 +1,39 @@
-import React, { useState } from 'react';
-import SiteForm from './components/SiteForm';
-import CostForm from './components/CostForm';
-import CostSummary from './components/CostSummary';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import HeroSection from './components/HeroSection';
+import Services from './components/Services';
+import Footer from './components/Footer';
+import Contact from './components/Contact';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import PrivacyPolicy from './components/PrivacyPolicy'; // Import Privacy Policy component
+import TermsOfService from './components/TermsOfService'; // Import Terms of Service component
 
-function App() {
-  const [site, setSite] = useState('');
-  const [totalCost, setTotalCost] = useState(0);
-  const [currency, setCurrency] = useState('USD');
-  const [costs, setCosts] = useState({
-    materials: 0,
-    transportation: 0,
-    accommodation: 0,
-    labour: 0
-  });
+const Home = () => (
+  <>
+    <HeroSection />
+  </>
+);
 
-  const handleSiteChange = (name) => {
-    setSite(name);
-  };
-
-  const handleTotalCostChange = (amount) => {
-    setTotalCost(amount);
-  };
-
-  const handleCurrencyChange = (selectedCurrency) => {
-    setCurrency(selectedCurrency);
-  };
-
-  const handleCostsChange = (newCosts) => {
-    setCosts(newCosts);
-  };
-
-  const totalUsed = Object.values(costs).reduce((a, b) => a + b, 0);
-  const warning = totalUsed / totalCost >= 0.6;
-
+const App = () => {
   return (
-    <div className="App">
-      <h1>Construction Cost Tracker</h1>
-      <SiteForm onSiteChange={handleSiteChange} />
-      <CostForm
-        onTotalCostChange={handleTotalCostChange}
-        onCurrencyChange={handleCurrencyChange}
-        onCostsChange={handleCostsChange}
-      />
-      <CostSummary
-        site={site}
-        totalCost={totalCost}
-        costs={costs}
-        currency={currency}
-        warning={warning}
-      />
-    </div>
+    <Router>
+      <div className="App">
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} /> {/* Route for Privacy Policy */}
+          <Route path="/terms-of-service" element={<TermsOfService />} /> {/* Route for Terms of Service */}
+        </Routes>
+        <Footer />
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
